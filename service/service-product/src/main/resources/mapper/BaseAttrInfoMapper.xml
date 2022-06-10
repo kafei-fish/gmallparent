@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lxl.gmall.product.mapper.BaseAttrInfoMapper">
+    <select id="getByCategoryIdFindAttrInfoList" resultMap="attrInfoList">
+        select
+            bai.id,
+            bai.attr_name,
+            bai.category_id,
+            bai.category_level,
+            bav.id attr_value_id,
+            bav.value_name,
+            bav.attr_id
+        from base_attr_info bai inner join base_attr_value bav on bai.id=bav.attr_id where
+            (  <if test="category1Id!=null and category1Id!=0">
+                    bai.category_id=#{category1Id} and bai.category_level=1
+                </if>)
+            or
+            (  <if test="category2Id!=null and category2Id!=0">
+                    bai.category_id=#{category2Id} and bai.category_level=2
+                </if> )
+            or
+            (     <if test="category3Id!=null and category3Id!=0">
+                    bai.category_id=#{category3Id} and bai.category_level=3
+                </if>)
+        order by bai.category_level,bai.id
+    </select>
+    <resultMap id="attrInfoList" type="com.lxl.gmall.model.product.BaseAttrInfo" autoMapping="true">
+        <id column="id" property="id"/>
+        <collection property="attrValueList" ofType="com.lxl.gmall.model.product.BaseAttrValue" autoMapping="true">
+            <id column="attr_value_id" property="id"/>
+        </collection>
+    </resultMap>
+</mapper>
