@@ -1,16 +1,15 @@
 package com.lxl.gmall.product.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lxl.gmall.comon.util.result.Result;
 import com.lxl.gmall.model.product.*;
 import com.lxl.gmall.product.service.ManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,7 @@ import java.util.Map;
  * @Date 2022/6/10 14:56
  * @PackageName:com.lxl.gmall.product.controller
  * @ClassName: BaseManageController
- * @Description: TODO
+ * @Description: 商品基础信息接口
  * @Version 1.0
  */
 @Api("商品基础信息接口")
@@ -59,7 +58,20 @@ public class BaseManageController {
     @ApiOperation(value = "根据平台属性Id 获取到平台属性值集合")
     @GetMapping("getAttrValueList/{attrId}")
     public Result getAttrValueList(@PathVariable Long attrId){
-        List<BaseAttrValue> attrValueList=manageService.getAttrValueList(attrId);
-        return Result.ok(attrValueList);
+       List<BaseAttrValue> baseAttrValueList=manageService.getAttrValueList(attrId);
+       return Result.ok(baseAttrValueList);
     }
+    @GetMapping("getBaseAttrInfo/attrId")
+    public Result getBaseAttrInfo(@PathVariable Long attrId){
+        BaseAttrInfo attrInfo=manageService.getBaseAttrInfo(attrId);
+        return Result.ok(attrInfo.getAttrValueList());
+    }
+    ///admin/product/saveAttrInfo
+    @PostMapping("saveAttrInfo")
+    public Result saveAttrInfo(@RequestBody BaseAttrInfo baseAttrInfo){
+        manageService.saveOrUpdateAttrInfo(baseAttrInfo);
+        return Result.ok();
+    }
+
+
 }

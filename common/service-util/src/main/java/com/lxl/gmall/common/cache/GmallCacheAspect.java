@@ -33,7 +33,7 @@ public class GmallCacheAspect {
 
     //  定义一个环绕通知！
     @SneakyThrows
-    @Around("@annotation(com.atguigu.gmall.common.cache.GmallCache)")
+    @Around("@annotation(com.lxl.gmall.common.cache.GmallCache)")
     public Object gmallCacheAspectMethod(ProceedingJoinPoint point){
         //  定义一个对象
         Object obj = new Object();
@@ -47,6 +47,9 @@ public class GmallCacheAspect {
                 直接返回！
             false:
                 分布式锁业务逻辑！
+         */
+        /**
+         * getSignature 获取封装了署名信息的对象,在该对象中可以获取到目标方法名,所属类的Class等信息
          */
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         GmallCache gmallCache = methodSignature.getMethod().getAnnotation(GmallCache.class);

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lxl.gmall.product.mapper.SkuSaleAttrValueMapper">
+    <resultMap id="SkuSaleAttrValueMap" type="java.util.Map" autoMapping="true">
+
+    </resultMap>
+    <select id="getSkuValueIdsMap" resultMap="SkuSaleAttrValueMap">
+        select sku_id, group_concat(sale_attr_value_id order by sale_attr_value_id separator '|') value_ids
+        from sku_sale_attr_value where spu_id=#{spuId} and is_deleted=0 group by sku_id;
+    </select>
+
+</mapper>

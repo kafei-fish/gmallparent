@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lxl.gmall.product.mapper.SpuSaleAttrValueMapper">
+    <select id="getSpuSaleAttrValue" resultMap="attrListvalue">
+        select
+            ssa.id,
+            ssa.spu_id,
+            ssa.base_sale_attr_id,
+            ssa.sale_attr_name,
+            ssav.id sale_attr_value_id,
+            ssav.sale_attr_value_name,
+            if(sav.sku_id is null,0,1) is_checked
+        from spu_sale_attr ssa inner join spu_sale_attr_value ssav
+                                          on ssa.spu_id = ssav.spu_id and ssa.base_sale_attr_id = ssav.base_sale_attr_id
+                               left join sku_sale_attr_value sav on sav.sale_attr_value_id = ssav.id and sav.sku_id = 24
+        where ssa.spu_id = 8
+        order by ssa.id ,ssav.id
+    </select>
+    <resultMap id="attrListvalue" type="com.lxl.gmall.model.product.SpuSaleAttr" autoMapping="true">
+        <id property="id" column="id"></id>
+        <collection property="spuSaleAttrValueList" autoMapping="true" ofType="com.lxl.gmall.model.product.SpuSaleAttrValue">
+            <id column="sale_attr_value_id" property="id"></id>
+        </collection>
+    </resultMap>
+</mapper>

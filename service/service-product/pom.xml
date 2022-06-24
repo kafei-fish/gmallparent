@@ -11,5 +11,11 @@
     <packaging>jar</packaging>
     <artifactId>service-product</artifactId>
 
-
+<dependencies>
+    <dependency>
+        <groupId>io.minio</groupId>
+        <artifactId>minio</artifactId>
+        <version>8.2.0</version>
+    </dependency>
+</dependencies>
 </project>

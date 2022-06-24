@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lxl.gmall.product.mapper.BaseAttrInfoMapper">
-    <select id="getByCategoryIdFindAttrInfoList" resultMap="attrInfoList">
-        select
-            bai.id,
+    <sql id="sqlT">
+        bai.id,
             bai.attr_name,
             bai.category_id,
             bai.category_level,
             bav.id attr_value_id,
-            bav.value_name,
+            bav.value_name
+    </sql>
+    <select id="getByCategoryIdFindAttrInfoList" resultMap="attrInfoList">
+        select
+            <include refid="sqlT"></include>,
             bav.attr_id
         from base_attr_info bai inner join base_attr_value bav on bai.id=bav.attr_id where
             (  <if test="category1Id!=null and category1Id!=0">
@@ -22,6 +25,7 @@
             (     <if test="category3Id!=null and category3Id!=0">
                     bai.category_id=#{category3Id} and bai.category_level=3
                 </if>)
+        and bai.is_deleted=0 and bav.is_deleted=0
         order by bai.category_level,bai.id
     </select>
     <resultMap id="attrInfoList" type="com.lxl.gmall.model.product.BaseAttrInfo" autoMapping="true">
@@ -30,4 +34,13 @@
             <id column="attr_value_id" property="id"/>
         </collection>
     </resultMap>
+    <select id="getBaseAttrInfoBySkuId" resultMap="attrInfoList">
+        select
+            <include refid="sqlT"></include>
+        from base_attr_info bai
+                 inner  join sku_attr_value sav on sav.attr_id=bai.id
+                 inner  join base_attr_value bav on sav.value_id=bav.id and sav.sku_id=#{skuId}
+        where
+              sav.is_deleted=0 and bai.is_deleted=0 and bav.is_deleted=0;
+    </select>
 </mapper>

@@ -13,6 +13,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>service-product</module>
+        <module>service-item</module>
+        <module>service-list</module>
+        <module>service-user</module>
     </modules>
 
     <dependencies>
@@ -52,11 +55,11 @@
         <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
     </dependency>
     <!-- 服务配置-->
-    <!-- <dependency>
+   <dependency>
          <groupId>com.alibaba.cloud</groupId>
          <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
      </dependency>
--->
+
     <!-- 服务调用feign -->
     <dependency>
         <groupId>org.springframework.cloud</groupId>
@@ -81,5 +84,10 @@
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-zipkin</artifactId>
     </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>5.1</version>
+        </dependency>
 </dependencies>
 </project>
